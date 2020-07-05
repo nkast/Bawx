@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Bawx.Rendering.Effects;
-using Bawx.Rendering.Lighting;
 using Bawx.Util;
 using Bawx.VoxelData;
 using Microsoft.Xna.Framework;
@@ -14,7 +13,6 @@ namespace VoxViewer
     internal partial class VoxViewer : Game
     {
         private readonly GraphicsDeviceManager _graphics;
-        private DirectionalShadowMap _shadowMap;
 
         private SpriteBatch _spriteBatch;
         private Texture2D _background;
@@ -38,6 +36,10 @@ namespace VoxViewer
             _graphics.GraphicsProfile = GraphicsProfile.HiDef;
             IsFixedTimeStep = false;
             _graphics.SynchronizeWithVerticalRetrace = false;
+
+            this.Window.AllowUserResizing = true;
+            this.IsMouseVisible = true;
+
         }
 
         protected override void Initialize()
@@ -96,8 +98,6 @@ namespace VoxViewer
                 chunk.Position = -chunk.Center;
             }
 
-            _shadowMap = new DirectionalShadowMap(GraphicsDevice);
-
             State = new VoxViewerState(this, modelNames, modelChunks);
         }
 
@@ -115,9 +115,6 @@ namespace VoxViewer
 
         protected override void Draw(GameTime gameTime)
         {
-            if (State.RenderState == RenderState.ShadowMap)
-                UpdateShadowMap();
-
             GraphicsDevice.Clear(Color.LightGray);
             _deviceState.Push();
             RenderBackGround();
@@ -128,15 +125,11 @@ namespace VoxViewer
             switch (State.RenderState)
             {
                 case RenderState.ShadowMap:
+                case RenderState.Depth:
                     RenderModel();
-
-                    RenderShadowMap(new Rectangle(1920-320, 0, 320, 180));
                     break;
                 case RenderState.Simple:
                     RenderModelNoShadow();
-                    break;
-                case RenderState.Depth:
-                    RenderModel();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -153,39 +146,11 @@ namespace VoxViewer
             _deviceState.Pop();
         }
 
-        private void UpdateShadowMap()
-        {
-            _deviceState.Push();
-
-            _shadowMap.Prepare();
-            State.CurrentChunk.Draw();
-
-            _deviceState.Pop();
-
-            GraphicsDevice.SetRenderTarget(null);
-        }
-
-        private void RenderShadowMap(Rectangle? rect = null)
-        {
-            _deviceState.Push();
-
-            _spriteBatch.Begin();
-            if (rect == null)
-                _spriteBatch.Draw(_shadowMap.RenderTarget, Vector2.Zero);
-            else
-                _spriteBatch.Draw(_shadowMap.RenderTarget, null, rect);
-
-            _spriteBatch.End();
-
-            _deviceState.Pop();
-        }
-
         private void RenderModel()
         {
             _deviceState.Push();
 
             GraphicsDevice.SamplerStates[0] = SamplerState.LinearClamp;
-            Effect.ShadowMap = _shadowMap.RenderTarget;
             CurrentChunk.Draw();
 
             _deviceState.Pop();

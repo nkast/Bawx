@@ -9,12 +9,7 @@ namespace Bawx.Rendering.Effects
 
         #region Techniques
 
-        public EffectTechnique BatchTechnique;
-        public EffectTechnique InstancingTechnique;
         public EffectTechnique MeshTechnique;
-        public EffectTechnique InstancingDepthTechnique;
-        public EffectTechnique InstancingWithShadowTechnique;
-        public EffectTechnique InstancingShadowMapTechnique;
 
         #endregion
 
@@ -187,12 +182,7 @@ namespace Bawx.Rendering.Effects
         public VoxelEffect(GraphicsDevice graphicsDevice) 
             : base(graphicsDevice, EffectHelper.LoadShaderBytes("voxelShader"))
         {
-            BatchTechnique = Techniques["Batch"];
-            InstancingTechnique = Techniques["Instancing"];
             MeshTechnique = Techniques["Mesh"];
-            InstancingDepthTechnique = Techniques["InstancingDepth"];
-            InstancingWithShadowTechnique = Techniques["InstancingWithShadow"];
-            InstancingShadowMapTechnique = Techniques["InstancingShadowMap"];
 
             _paletteParam = Parameters["Palette"];
 

@@ -69,10 +69,10 @@ namespace Bawx.VertexTypes
             unchecked
             {
                 var hashCode = X.GetHashCode();
-                hashCode = (hashCode*397) ^ Y.GetHashCode();
-                hashCode = (hashCode*397) ^ Z.GetHashCode();
-                hashCode = (hashCode*397) ^ Index.GetHashCode();
-                hashCode = (hashCode*397) ^ Normal.GetHashCode();
+                hashCode = hashCode ^ Y.GetHashCode();
+                hashCode = hashCode ^ Z.GetHashCode();
+                hashCode = hashCode ^ Index.GetHashCode();
+                hashCode = hashCode ^ Normal.GetHashCode();
                 return hashCode;
             }
         }

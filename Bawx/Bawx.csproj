@@ -54,7 +54,6 @@
     <Compile Include="VertexTypes\QuadData.cs" />
     <Compile Include="Rendering\ChunkRenderers\ChunkRenderer.cs" />
     <Compile Include="Rendering\ChunkRenderers\PolygonChunkRenderer.cs" />
-    <Compile Include="Rendering\Lighting\DirectionalShadowMap.cs" />
     <Compile Include="Util\CubeBuilder.cs" />
     <Compile Include="Util\Extensions.cs" />
     <Compile Include="VertexTypes\Block.cs" />
@@ -62,17 +61,12 @@
     <Compile Include="VertexTypes\VertexPositionNormalColor.cs" />
     <Compile Include="TypeReaders\ChunkReader.cs" />
     <Compile Include="Rendering\Effects\VoxelEffect.cs" />
-    <Compile Include="Rendering\Effects\VoxelTracerEffect.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Assets\Shaders\voxelShader.dx11.mgfxo" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Assets\Shaders\voxelShader.ogl.mgfxo" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Assets\Shaders\voxelTracer.dx11.mgfxo" />
-    <EmbeddedResource Include="Assets\Shaders\voxelTracer.ogl.mgfxo" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
